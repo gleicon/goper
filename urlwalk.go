@@ -16,14 +16,14 @@ func URLWalk(argURL string) {
 		},
 	}
 
-    redirectCount := 0
+	redirectCount := 0
 
 	for {
 
-        if (redirectCount > maxRedirects) {
-            red.Printf("max redirects reached: %d (possible redirec loop)\n", redirectCount)
-            return
-        }
+		if redirectCount > maxRedirects {
+			red.Printf("max redirects reached: %d (possible redirec loop)\n", redirectCount)
+			return
+		}
 
 		response, err := httpClient.Get(argURL)
 		if err != nil {
@@ -50,6 +50,6 @@ func URLWalk(argURL string) {
 			return
 		}
 		argURL = l.String()
-        redirectCount++
+		redirectCount++
 	}
 }
