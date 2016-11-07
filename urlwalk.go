@@ -5,7 +5,8 @@ import (
 	"time"
 )
 
-func UrlWalk(argUrl string) {
+// URLWalk walks through all HTTP redirects of a given URL
+func URLWalk(argURL string) {
 	var httpClient = &http.Client{
 		Timeout: time.Second * 5,
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
@@ -14,7 +15,7 @@ func UrlWalk(argUrl string) {
 	}
 	for {
 
-		response, err := httpClient.Get(argUrl)
+		response, err := httpClient.Get(argURL)
 		if err != nil {
 			red.Println(err)
 			return
@@ -32,12 +33,12 @@ func UrlWalk(argUrl string) {
 			currentColor = green
 			break
 		}
-		currentColor.Printf(">> %s (%d)\n", argUrl, response.StatusCode)
+		currentColor.Printf(">> %s (%d)\n", argURL, response.StatusCode)
 
 		l, err := response.Location()
-		if l == nil {
+		if err == http.ErrNoLocation {
 			return
 		}
-		argUrl = l.String()
+		argURL = l.String()
 	}
 }
