@@ -20,14 +20,14 @@ func main() {
 		os.Exit(-1)
 	}
 
-	argUrl := os.Args[1]
+	argURL := os.Args[1]
 
-	_, err := url.Parse(argUrl)
+	_, err := url.Parse(argURL)
 
 	if err != nil {
 		red.Println(err)
 		os.Exit(-2)
 	}
 
-	UrlWalk(argUrl)
+	URLWalk(argURL)
 }

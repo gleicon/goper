@@ -7,7 +7,7 @@ It is not a gem.
 
 ## getting and building
 
-	$ go get -u https://github.com/gleicon/goper
+	$ go get -u github.com/gleicon/goper
 
 Alternatively
 

@@ -5,16 +5,27 @@ import (
 	"time"
 )
 
-func UrlWalk(argUrl string) {
+const maxRedirects = 100
+
+// URLWalk walks through all HTTP redirects of a given URL
+func URLWalk(argURL string) {
 	var httpClient = &http.Client{
 		Timeout: time.Second * 5,
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
 			return http.ErrUseLastResponse
 		},
 	}
+
+	redirectCount := 0
+
 	for {
 
-		response, err := httpClient.Get(argUrl)
+		if redirectCount > maxRedirects {
+			red.Printf("max redirects reached: %d (possible redirect loop)\n", redirectCount)
+			return
+		}
+
+		response, err := httpClient.Get(argURL)
 		if err != nil {
 			red.Println(err)
 			return
@@ -32,12 +43,13 @@ func UrlWalk(argUrl string) {
 			currentColor = green
 			break
 		}
-		currentColor.Printf(">> %s (%d)\n", argUrl, response.StatusCode)
+		currentColor.Printf(">> %s (%d)\n", argURL, response.StatusCode)
 
 		l, err := response.Location()
-		if l == nil {
+		if err == http.ErrNoLocation {
 			return
 		}
-		argUrl = l.String()
+		argURL = l.String()
+		redirectCount++
 	}
 }
