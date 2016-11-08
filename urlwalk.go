@@ -21,7 +21,7 @@ func URLWalk(argURL string) {
 	for {
 
 		if redirectCount > maxRedirects {
-			red.Printf("max redirects reached: %d (possible redirec loop)\n", redirectCount)
+			red.Printf("max redirects reached: %d (possible redirect loop)\n", redirectCount)
 			return
 		}
 
