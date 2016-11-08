@@ -21,3 +21,5 @@ Make sure it is on your path
 
 ![](goper.gif)
 
+### license: MIT. 
+
